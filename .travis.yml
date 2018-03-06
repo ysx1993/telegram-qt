@@ -54,7 +54,9 @@ after_success:
     if [ "$ENABLE_COVERAGE_BUILD" == "true" ]; then
       make coverage
       # Uploading report to CodeCov
-      bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+      curl -s https://codecov.io/bash > codecov.sh
+      chmod +x codecov.sh
+      ./codecov.sh -f coverage.info || echo "Codecov did not collect coverage reports"
     fi
 
 notifications:
