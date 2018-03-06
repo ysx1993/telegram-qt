@@ -102,6 +102,7 @@ if (ENABLE_COVERAGE_BUILD)
             '*/tests/*'
             '*/server/*'
             '/usr/*'
+            '/opt/*'
             '*/moc_*.cpp'
             --output-file ${coverage_info}
         COMMAND ${LCOV_PATH} --list ${coverage_info}
