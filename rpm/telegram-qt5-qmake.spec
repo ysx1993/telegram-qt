@@ -30,6 +30,13 @@ Group: Development/Libraries
 %description qt5
 %{summary}.
 
+%package qt5-declarative
+Summary:    Declarative plugin for TelegramQt library
+Group:      Development/Libraries
+Requires:   %{name}-qt5%{?_isa} = %{version}-%{release}
+%description qt5-declarative
+%{summary}.
+
 %package qt5-devel
 Summary:    Development headers and pkg-config for TelegramQt library
 Group:      Development/Libraries
@@ -70,6 +77,12 @@ make install INSTALL_ROOT=%{buildroot}
 %{_qt5_libdir}/libTelegramQt5.so.%{version_major}
 %{_qt5_libdir}/libTelegramQt5.so.%{version_major}.%{version_minor}
 %{_qt5_libdir}/libTelegramQt5.so.%{version_major}.%{version_minor}.%{version_patch}
+
+%files qt5-declarative
+%defattr(-,root,root,-)
+%{_qt5_qmldir}/TelegramQt/qmldir
+%{_qt5_qmldir}/TelegramQt/plugins.qmltypes
+%{_qt5_qmldir}/TelegramQt/libTelegramQt5Qml.so*
 
 %files qt5-devel
 %defattr(-,root,root,-)
