@@ -71,6 +71,12 @@ make install INSTALL_ROOT=%{buildroot}
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
+%post qt5 -p /sbin/ldconfig
+%postun qt5 -p /sbin/ldconfig
+
+%post qt5-declarative -p /sbin/ldconfig
+%postun qt5-declarative -p /sbin/ldconfig
+
 %files qt5
 %defattr(-,root,root,-)
 %{_qt5_libdir}/libTelegramQt5.so
