@@ -1,6 +1,6 @@
 #options += static-lib
 options += beta-build
-options += server
+#options += server
 
 equals(DEVELOPER_BUILD, "true") {
     message("Developer build")
