@@ -16,6 +16,7 @@ BuildRequires: qt%{_qt5_version}-qtgui-devel >= %qt_abi_version
 BuildRequires: qt%{_qt5_version}-qtnetwork-devel >= %qt_abi_version
 BuildRequires: qt%{_qt5_version}-qtdeclarative-devel >= %qt_abi_version
 BuildRequires: qt%{_qt5_version}-qtdeclarative-qtquick-devel >= %qt_abi_version
+BuildRequires: qt%{_qt5_version}-qtquickcontrols2-devel >= %qt_abi_version
 BuildRequires: qt%{_qt5_version}-qmake >= %qt_abi_version
 BuildRequires: pkgconfig(openssl)
 
@@ -34,6 +35,13 @@ Summary:    Development headers and pkg-config for TelegramQt library
 Group:      Development/Libraries
 Requires:   %{name}-qt5%{?_isa} = %{version}-%{release}
 %description qt5-devel
+%{summary}.
+
+%package qmlclient
+Summary: QML Client
+Group: Development/Libraries
+Requires:   %{name}-qt5 = %{version}-%{release}
+%description qmlclient
 %{summary}.
 
 %prep
@@ -65,5 +73,9 @@ make install INSTALL_ROOT=%{buildroot}
 
 %files qt5-devel
 %defattr(-,root,root,-)
-%{_qt5_headerdir}/telegram-qt5/TelegramQt/*
+%{_qt5_headerdir}
 %{_qt5_libdir}/pkgconfig/TelegramQt5.pc
+
+%files qmlclient
+%defattr(-,root,root,-)
+%{_qt5_bindir}/*
