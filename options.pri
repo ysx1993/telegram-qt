@@ -16,6 +16,10 @@ isEmpty(INSTALL_PREFIX) {
     }
 }
 
+isEmpty(INSTALL_BIN_DIR) {
+    INSTALL_BIN_DIR = $$INSTALL_PREFIX/bin
+}
+
 isEmpty(INSTALL_LIB_DIR) {
     INSTALL_LIB_DIR = $$INSTALL_PREFIX/lib
 }

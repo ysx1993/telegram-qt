@@ -5,6 +5,8 @@ QT += qml quick quickcontrols2
 CONFIG += c++11
 CONFIG += plugin
 
+include(../../options.pri)
+
 TARGET = qml-client
 
 SOURCES += main.cpp
@@ -34,5 +36,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+target.path = $$INSTALL_BIN_DIR
 # Default rules for deployment.
 !isEmpty(target.path): INSTALLS += target

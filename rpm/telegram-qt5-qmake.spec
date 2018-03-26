@@ -43,6 +43,7 @@ Requires:   %{name}-qt5%{?_isa} = %{version}-%{release}
 %{qmake_qt5} \
   "BUILD_ONLY_LIBRARY=true" \
   "INSTALL_PREFIX=%{_qt5_prefix}" \
+  "INSTALL_BIN_DIR=%{_qt5_bindir}" \
   "INSTALL_LIB_DIR=%{_qt5_libdir}" \
   "INSTALL_INCLUDE_DIR=%{_qt5_headerdir}"
 
