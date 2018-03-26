@@ -25,6 +25,7 @@ bool DeclarativeOperation::succeed() const
 
 void DeclarativeOperation::start()
 {
+    return;
 //    m_running = true;
     emit started();
     startEvent();
