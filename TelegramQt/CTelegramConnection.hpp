@@ -35,6 +35,8 @@ class CTelegramStream;
 class CTelegramTransport;
 class RpcProcessingContext;
 
+#define NETWORK_LOGGING
+
 #ifdef NETWORK_LOGGING
 QT_FORWARD_DECLARE_CLASS(QFile)
 #endif

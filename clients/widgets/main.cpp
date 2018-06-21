@@ -16,6 +16,7 @@
  */
 
 #include "MainWindow.hpp"
+#include "RandomGenerator.hpp"
 #include <QApplication>
 
 #include <QLocale>
@@ -26,6 +27,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+
+    Telegram::DeterministicGenerator deterministic;
+    Telegram::RandomGeneratorSetter generatorKeeper(&deterministic);
 
     return a.exec();
 }

@@ -134,7 +134,11 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="settingsProxyHost"/>
+            <widget class="QLineEdit" name="settingsProxyHost">
+             <property name="text">
+              <string>127.0.0.1</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_8">
@@ -149,7 +153,7 @@
               <number>65535</number>
              </property>
              <property name="value">
-              <number>1080</number>
+              <number>12343</number>
              </property>
             </widget>
            </item>

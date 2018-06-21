@@ -4229,6 +4229,18 @@ void CTelegramConnection::onTransportPackageReceived(const QByteArray &input)
 
     if (!authId) {
         // Plain Message
+#ifdef NETWORK_LOGGING
+        QTextStream str(m_logFile);
+
+        str << QDateTime::currentDateTime().toString(QLatin1String("yyyyMMdd HH:mm:ss:zzz")) << QLatin1Char('|');
+        str << QLatin1String("pln|");
+        str << QString(QLatin1String("size: %1|")).arg(input.length(), 4, 10, QLatin1Char('0'));
+        str << QLatin1Char('|');
+        str << input.toHex();
+        str << endl;
+        str.flush();
+#endif
+
         quint64 timeStamp = 0;
         inputStream >> timeStamp;
         quint32 length = 0;
