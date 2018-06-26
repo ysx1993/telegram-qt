@@ -37,6 +37,7 @@ SOURCES = CTelegramCore.cpp \
     CRawStream.cpp \
     CTelegramStream.cpp \
     Debug.cpp \
+    RpcError.cpp \
     Utils.cpp \
     FileRequestDescriptor.cpp \
     TelegramUtils.cpp \
@@ -64,6 +65,7 @@ HEADERS = CTelegramCore.hpp \
     CAppInformation.hpp \
     Debug.hpp \
     Debug_p.hpp \
+    RpcError.hpp \
     CTelegramDispatcher.hpp \
     CTelegramModule.hpp \
     CTelegramAuthModule.hpp \

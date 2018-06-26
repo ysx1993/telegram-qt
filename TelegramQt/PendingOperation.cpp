@@ -1,7 +1,17 @@
 #include "PendingOperation.hpp"
 
+#include "CTelegramStream.hpp"
+//#include "ClientBackend.hpp"
+//#include "ClientConnection.hpp"
+//#include "ClientRpcLayer.hpp"
+//#include "ClientRpcAuthLayer.hpp"
+//#include "ClientRpcAccountLayer.hpp"
+#include "Utils.hpp"
+
 #include <QDebug>
 #include <QTimer>
+
+#include "RpcError.hpp"
 
 #ifdef DEVELOPER_BUILD
 #include "TLTypesDebug.hpp"
@@ -74,6 +84,39 @@ void PendingOperation::onPreviousFailed(PendingOperation *operation, const QVari
 {
     Q_UNUSED(operation)
     setFinishedWithError(details);
+}
+
+PendingRpcOperation::PendingRpcOperation(const QByteArray &requestData, QObject *parent) :
+    PendingOperation(parent),
+    m_requestData(requestData)
+{
+    connect(this, &PendingOperation::finished, [this]() { emit PendingRpcOperation::finished(this); });
+}
+
+PendingRpcOperation::~PendingRpcOperation()
+{
+    if (m_error) {
+        delete m_error;
+    }
+}
+
+void PendingRpcOperation::setFinishedWithReplyData(const QByteArray &data)
+{
+    m_replyData = data;
+    TLValue answerValue = TLValue::firstFromArray(data);
+    if (answerValue == TLValue::RpcError) {
+        if (!m_error) {
+            m_error = new RpcError();
+        }
+        CRawStreamEx stream(data);
+        stream >> *m_error;
+        setFinishedWithError({
+                                 {QStringLiteral("RpcErrorCode"), m_error->type },
+                                 {QStringLiteral("RpcError"), m_error->message }
+                             });
+    } else {
+        setFinished();
+    }
 }
 
 } // Telegram

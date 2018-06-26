@@ -19,6 +19,17 @@ public:
     bool readRpcResult(T *result);
 };
 
+//template<typename T>
+//inline bool PendingOperation::Private::readRpcResult(T *result)
+//{
+//    inputStream() >> *result;
+//    m_code = result->tlType;
+//    m_succeed = result->isValid() && !inputStream().error();
+//    return m_succeed;
+//}
+
+//class PendingOperation::Private : public
+
 }
 
 #endif //TELEGRAMQT_PENDING_OPERATION_PRIVATE
