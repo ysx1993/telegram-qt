@@ -26,7 +26,7 @@
 #include <QLoggingCategory>
 #include <QtEndian>
 
-Q_LOGGING_CATEGORY(c_clientDhLayerCategory, "telegram.client.dhlayer", QtWarningMsg)
+Q_LOGGING_CATEGORY(c_clientDhLayerCategory, "telegram.client.dhlayer", QtDebugMsg)
 
 namespace Telegram {
 
