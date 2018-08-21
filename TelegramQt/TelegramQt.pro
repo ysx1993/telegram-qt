@@ -37,18 +37,21 @@ SOURCES = CTelegramCore.cpp \
     CRawStream.cpp \
     CTelegramStream.cpp \
     Debug.cpp \
+    DhLayer.cpp \
     RpcError.cpp \
     Utils.cpp \
     FileRequestDescriptor.cpp \
     TelegramUtils.cpp \
     CTelegramTransport.cpp \
     CTcpTransport.cpp \
+    ClientDhLayer.cpp \
     CClientTcpTransport.cpp \
     TelegramNamespace.cpp \
     CTelegramConnection.cpp \
     PendingOperation.cpp \
     RandomGenerator.cpp \
     RpcProcessingContext.cpp \
+    SendPackageHelper.cpp \
     TLValues.cpp
 
 PUBLIC_HEADERS += \
@@ -65,6 +68,7 @@ HEADERS = CTelegramCore.hpp \
     CAppInformation.hpp \
     Debug.hpp \
     Debug_p.hpp \
+    DhLayer.hpp \
     RpcError.hpp \
     CTelegramDispatcher.hpp \
     CTelegramModule.hpp \
@@ -80,6 +84,7 @@ HEADERS = CTelegramCore.hpp \
     CTelegramTransport.hpp \
     CTcpTransport.hpp \
     CClientTcpTransport.hpp \
+    ClientDhLayer.hpp \
     TLTypes.hpp \
     TLNumbers.hpp \
     crypto-aes.hpp \
@@ -89,6 +94,7 @@ HEADERS = CTelegramCore.hpp \
     PendingOperation_p.hpp \
     RandomGenerator.hpp \
     RpcProcessingContext.hpp \
+    SendPackageHelper.hpp \
     TelegramNamespace.hpp \
     TelegramNamespace_p.hpp \
     telegramqt_global.h \
