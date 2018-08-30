@@ -128,7 +128,7 @@ void AuthOperation::recovery()
 
 void AuthOperation::setWantedDc(quint32 dcId)
 {
-
+    m_backend->setDcForLayer(ConnectionSpec(dcId), authLayer());
 }
 
 void AuthOperation::setPasswordCurrentSalt(const QByteArray &salt)
@@ -160,6 +160,7 @@ void AuthOperation::onRequestAuthCodeFinished(PendingRpcOperation *operation)
     if (operation->rpcError() && operation->rpcError()->type == RpcError::SeeOther) {
         setWantedDc(operation->rpcError()->argument);
         m_backend->processSeeOthers(operation);
+        return;
     }
 
     if (!operation->isSucceeded()) {
