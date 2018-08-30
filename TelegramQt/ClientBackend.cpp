@@ -8,6 +8,8 @@
 #include "ClientRpcLayer.hpp"
 #include "ClientRpcHelpLayer.hpp"
 #include "DataStorage.hpp"
+#include "RpcError.hpp"
+#include "Debug_p.hpp"
 
 #include "Operations/ClientAuthOperation.hpp"
 #include "Operations/ClientHelpOperation.hpp"
@@ -249,6 +251,20 @@ Connection *Backend::getDefaultConnection()
     return nullptr;
 }
 
+Connection *Backend::ensureConnection(const ConnectionSpec &dcSpec)
+{
+    qWarning() << Q_FUNC_INFO << dcSpec.dcId << dcSpec.flags;
+    if (!m_connections.contains(dcSpec)) {
+        const DcOption opt = dataStorage()->serverConfiguration().getOption(dcSpec);
+        if (!opt.isValid()) {
+            qWarning() << Q_FUNC_INFO << "Unable to find suitable DC";
+            return nullptr;
+        }
+        m_connections.insert(dcSpec, createConnection(opt));
+    }
+    return m_connections.value(dcSpec);
+}
+
 void Backend::setMainConnection(Connection *connection)
 {
     m_mainConnection = connection;
@@ -277,10 +293,51 @@ void Backend::onConnectOperationFinished(PendingOperation *operation)
 
 void Backend::onGetDcConfigurationFinished(PendingOperation *operation)
 {
+    qWarning() << Q_FUNC_INFO << operation->errorDetails();
     if (!operation->isSucceeded()) {
         qWarning() << Q_FUNC_INFO << "Unable to get dc configuration";
         return;
     }
+    for (PendingRpcOperation *operation : m_queuedRedirectedOperations) {
+        routeOperation(operation);
+    }
+    m_queuedRedirectedOperations.clear();
+}
+
+void Backend::processSeeOthers(PendingRpcOperation *operation)
+{
+    qWarning() << Q_FUNC_INFO << "operation" << TLValue::firstFromArray(operation->requestData()) << operation->requestId();
+    if (!getDcConfig()->isFinished()) {
+        qWarning() << Q_FUNC_INFO << "Queued";
+        m_queuedRedirectedOperations.append(operation);
+        return;
+    }
+    routeOperation(operation);
+}
+
+void Backend::routeOperation(PendingRpcOperation *operation)
+{
+    qWarning() << Q_FUNC_INFO << "operation" << TLValue::firstFromArray(operation->requestData()) << operation->requestId();
+    const quint32 dcId = operation->rpcError()->argument;
+    ConnectionSpec spec(dcId);
+    spec.flags |= ConnectionSpec::RequestFlag::Ipv4Only; // Enable only ipv4 for now
+
+    TLValue requestType = TLValue::firstFromArray(operation->requestData());
+    switch (requestType) {
+    case TLValue::UploadGetFile:
+        spec.flags |= ConnectionSpec::RequestFlag::MediaOnly;
+        break;
+    default:
+        break;
+    }
+    Connection *connection = ensureConnection(spec);
+    if (!connection) {
+        qWarning() << Q_FUNC_INFO << "Unable to get connection for operation"
+                   << operation->requestId() << "dc spec" << spec.dcId << spec.flags;
+        operation->deleteLater();
+        return;
+    }
+    connection->processSeeOthers(operation);
 }
 
 } // Client namespace
